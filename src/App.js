@@ -4,7 +4,6 @@ import './App.css';
 import Header from './components/header';
 import HomePage from './pages/HomePage';
 import CoinPage from './pages/CoinPage';
-// import {css} from '@emotion/react';
 
 function App() {
 
