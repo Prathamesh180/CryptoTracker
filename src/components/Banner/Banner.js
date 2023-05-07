@@ -1,12 +1,13 @@
 import React from 'react'
-import {styled} from '@mui/system'
 import { Typography } from '@mui/material';
+import BannerCorousel from './Corousel';
+import styled from '@emotion/styled';
 
 const Banner = styled('div')({
   backgroundImage: "url(./banner2.jpg)",
 });
 
-const BannerContent = styled('container')({
+const BannerContent = styled('div')({
   height:400,
   display: 'flex',
   flexDirection: 'column',
@@ -14,7 +15,7 @@ const BannerContent = styled('container')({
   justifyContent: 'space-around',
 });
 
-const BannerTagline = styled('container')({
+const BannerTagline = styled('div')({
   display: 'flex',
   height: '40%',
   flexDirection: 'column',
@@ -51,6 +52,7 @@ export default function MyBanner (){
         </Typography>
       </BannerTagline>
     </BannerContent>
+    <BannerCorousel>Corousel</BannerCorousel>
   </Banner>
   )
 }
