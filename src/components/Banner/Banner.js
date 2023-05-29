@@ -8,7 +8,7 @@ const Banner = styled('div')({
 });
 
 const BannerContent = styled('div')({
-  height:400,
+  height:275,  //First it was 400, for ui changed, ui issue might be due to styling of corousel. so fix cosousel styling.
   display: 'flex',
   flexDirection: 'column',
   paddingTop: 25,
