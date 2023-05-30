@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { CoinList } from '../config/api';
 import {CryptoState} from '../CryptoContext'
-import { Container, createTheme, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Container, createTheme, LinearProgress, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from '@mui/material';
+import { makeStyles, styled } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { numberWithCommas } from './Banner/Corousel';
 // import styled from '@emotion/styled';
@@ -14,6 +14,7 @@ const CoinsTable = () => {
     const [search, setsearch] = useState('');
     const navigate = useNavigate();
     const { currency, symbol } = CryptoState();
+    const [Page, setPage] = useState(1);
 
     console.log(Coins);
     useEffect(() => {
@@ -41,9 +42,14 @@ const CoinsTable = () => {
     const handleSearch = () => {
       return Coins.filter(
         (coin) => 
-        coin.name.toLowerCase().includes(search) || coin.name.toLowerCase.includes(search)
+        coin.name.toLowerCase().includes(search) || coin.name.toLowerCase().includes(search)
       );
     };
+
+    // const styledPagination = styled(Pagination)({
+    //   "& .MuiPaginationItem-root":{
+    //     color: "gold",
+    //   }});
 
     // const useStyles =  makeStyles(() => ({
 
@@ -86,7 +92,7 @@ const CoinsTable = () => {
                         </TableRow>
                       </TableHead>
 
-                      <TableBody>{ handleSearch().map((row) => {
+                      <TableBody>{ handleSearch().slice((Page-1)*10, (Page-1)*10 + 10).map((row) => {
                         const profit = row.price_change_percentage_24h > 0;
 
                         return(
@@ -96,8 +102,8 @@ const CoinsTable = () => {
                           key = {row.name}
                           >
                             <TableCell 
-                            component='th' scope='row' 
-                            styles={{display: 'flex', gap: 15,}}>
+                            component='th' scope='row'    
+                            style={{display: 'flex', gap: 15,}}>
                               <img
                                 src={row?.image}
                                 alt={row.name}
@@ -133,14 +139,35 @@ const CoinsTable = () => {
                               {profit && "+"}
                               {row.price_change_percentage_24h.toFixed(2)}%
                             </TableCell>
+                            <TableCell align='right'>
+                              {symbol}{" "}
+                              {numberWithCommas(
+                                row.market_cap.toString().slice(0, -6)
+                              )}
+                              {/* adding million to compensate removed 6 zeroes. */}
+                              M
+                            </TableCell>
                           </TableRow>
                         );
                       })}
-                      </TableBody>
+                      </TableBody>z
                     </Table>
                   )
                 }
             </TableContainer>
+            <Pagination
+            style={{
+              padding: 20,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center"
+            }}
+            count={(handleSearch()?.length/10).toFixed(0)}
+            onChange={(_, value) => {
+              setPage(value);
+              window.scroll(0, 450);
+            }}
+            />
           </Container>
         </ThemeProvider>
       )
